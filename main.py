@@ -36,6 +36,22 @@ def filter_new_data(data_frame: pd.DataFrame) -> pd.DataFrame:
     return new_data
 
 def main():
+    def convert_to_float(x: str) -> float:
+        if pd.isna(x) or x == "--" or str(x).strip() == "":
+            return 0.0
+        
+        if isinstance(x, (int, float)):
+            return float(x)
+        
+        if isinstance(x, str):
+            x = x.replace(".", "").replace(",", ".").strip()
+            try:
+                return float(x)
+            except ValueError:
+                return 0.0
+                
+        return 0.0
+
     st.set_page_config(layout="wide")
     st.title("Importação base Grupo Nato")
 
@@ -45,9 +61,15 @@ def main():
         file = st.file_uploader("Planilha", 'xlsx', False)
 
         if file:
-            df = pd.read_excel(file)
-
             try:
+                df = pd.read_excel(
+                    file, 
+                    parse_dates=["Emissão", "Vencto", "Recebto"], 
+                    date_format="%d-%m-%y",
+                    na_values=["--"],
+                    converters={column: convert_to_float for column in ["Valor Bruto","Desc/Acrés", "Valor Líquido"]}
+                )
+
                 validate_data_frame(df)
                 new_data = filter_new_data(df)
 
