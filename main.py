@@ -195,9 +195,9 @@ def main():
     
     with col1:
         st.write("## Planilhas")
-        pedidos = st.file_uploader("Planilha Pedidos", 'xlsx', False)
-        itens = st.file_uploader("Planilha Itens dos Pedidos", 'xlsx', False)
-        clientes = st.file_uploader("Planilha Clientes", 'xlsx', False)
+        pedidos = st.file_uploader("Planilha Pedidos", ['xlsx', 'xls'], False)
+        itens = st.file_uploader("Planilha Itens dos Pedidos", ['xlsx', 'xls'], False)
+        clientes = st.file_uploader("Planilha Clientes", ['xlsx', 'xls'], False)
 
         send_button = st.button("Enviar")
 
