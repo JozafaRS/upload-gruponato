@@ -15,7 +15,7 @@ def validate_data_frame(data_frame: pd.DataFrame, expected_columns: list[str]) -
 def filter_new_data(data_frame: pd.DataFrame, table_name: str, unique_column: str) -> pd.DataFrame:
     with engine.connect() as connection:
         if inspect(engine).has_table(table_name):
-            query = text(f'SELECT DISTINCT "{unique_column}" FROM {table_name}')
+            query = text(f'SELECT DISTINCT `{unique_column}` FROM {table_name}')
             current_ids = pd.read_sql_query(query, connection)[unique_column].values
         else:
             current_ids = []
